@@ -1,3 +1,4 @@
 class User < ActiveRecord::Base
-  attr_accessible :fs_username, :fs_password, :fs_session_id, :fs_session_update
+  attr_accessible :name, :email, :password
+  has_one :family_search_user
 end

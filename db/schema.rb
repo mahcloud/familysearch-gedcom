@@ -11,18 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130130201826) do
+ActiveRecord::Schema.define(:version => 20130131003344) do
 
-  create_table "familysearch_apis", :force => true do |t|
+  create_table "family_search_users", :force => true do |t|
+    t.integer  "user_id",        :null => false
+    t.string   "username",       :null => false
+    t.string   "password",       :null => false
+    t.string   "session_id"
+    t.datetime "session_update"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "family_search_users", ["user_id"], :name => "index_family_search_users_on_user_id", :unique => true
+
+  create_table "users", :force => true do |t|
+    t.string   "name",       :null => false
+    t.string   "email",      :null => false
+    t.string   "password",   :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "fs_username"
-    t.string   "fs_password"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end

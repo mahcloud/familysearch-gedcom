@@ -1,19 +1,20 @@
 require 'digest'
 class User < ActiveRecord::Base
-	attr_accessible :name, :email, :password
+	attr_accessible :name, :email, :password, :password_confirmation
 
-	attr_accessor :password
+	validates :name,
+		:presence => true
 
 	validates :email,
 		:presence => true,
 		:uniqueness => true,
 		:length => { :within => 5..50 },
-		:format => { :with => /^[^@[\w.-]+@[\w.-]+[.][a-z]{2,4}$/i }
+		:format => { :with => /^[^@][\w.-]+@[\w.-]+[.][a-z]{2,4}$/i }
 
 	validates :password,
 		:presence => true,
 		:confirmation => true,
-		:length => { :within => 6..25 }
+		:length => { :within => 6..25 },
 		:if => :password_required?
 
 	has_one :family_search_user

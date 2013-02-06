@@ -30,4 +30,14 @@ class ApplicationController < ActionController::Base
 	end
 
 	helper_method :require_login
+
+	def has_fsa?
+		if current_user.family_search_account.nil?
+			false
+		else
+			true
+		end
+	end
+
+	helper_method :has_fsa?
 end

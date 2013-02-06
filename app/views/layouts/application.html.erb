@@ -8,9 +8,11 @@
 </head>
 <body>
 <div>
+	<%= link_to "Home", root_path %>
 <% if logged_in? %>
 	<%= link_to "logout", session_path, :method => :delete %>
 <% else %>
+	<%= link_to "register", register_path %>
 	<%= link_to "login", new_session_path %>
 <% end %>
 </div>

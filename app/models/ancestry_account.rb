@@ -14,7 +14,7 @@ class AncestryAccount < ActiveRecord::Base
 
 	before_save :encrypt_new_password
 
-	def fetch_session_id
+	def fetch_session_id?
 		if session_update.nil? || session_id.nil? || (session_update < (Time.now - 3.hour))
 			false
 		end

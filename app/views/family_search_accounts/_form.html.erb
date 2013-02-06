@@ -1,0 +1,24 @@
+<%= form_for(@fs_account) do |f| %>
+	<% if @fs_account.errors.any? %>
+	<div id="errorExplanation">
+		<h2><%= pluralize(@fs_account.errors.count, "error") %> prohibited these familysearch criteria from being saved:</h2>
+		<ul>
+		<% @fs_account.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+		</ul>
+	</div>
+	<% end %>
+
+	<div class="field">
+		<%= f.label :username %><br />
+		<%= f.text_field :username %>
+	</div>
+	<div class="field">
+		<%= f.label :password %><br />
+		<%= f.password_field :password %>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
+<% end %>

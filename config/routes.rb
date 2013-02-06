@@ -3,8 +3,11 @@ Familysearch::Application.routes.draw do
   root :to => 'home#index'
   resources :users
   resource :session
+  resources :family_search_accounts
+  match '/register' => "users#new", :as => "register"
   match '/login' => "sessions#new", :as => "login"
   match '/logout' => "sessions#destroy", :as => "logout"
+  match '/link_fsa' => "family_search_accounts#new", :as =>"link_fsa"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

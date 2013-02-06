@@ -17,7 +17,8 @@ class User < ActiveRecord::Base
 		:length => { :within => 6..25 },
 		:if => :password_required?
 
-	has_one :family_search_user
+	has_one :family_search_account
+	has_one :ancestry_account
 
 	before_save :encrypt_new_password
 

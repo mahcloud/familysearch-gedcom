@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FamilySearchAccountTest < ActiveSupport::TestCase
+class FamilySearchAccountsControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

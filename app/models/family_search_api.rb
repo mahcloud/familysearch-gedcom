@@ -19,4 +19,24 @@ class FamilySearchApi
     end
     false
   end
+
+	def self.authenticated?
+		if logged_in? && has_fsa?
+			return current_user.family_search_account.fetch_session_id?
+		end
+		return false
+	end
+
+	def self.query_tree(session_id, id)
+		begin
+			xml = RestClient.get "https://api-user-3316:1a41@"+TREE_URL, :params => {:sessionId => session_id}
+			if xml.code == 200
+				f = Nokogiri::XML(xml)
+				return xml
+			end
+		rescue => e
+		abort(e.message)
+		end
+		nil
+	end
 end

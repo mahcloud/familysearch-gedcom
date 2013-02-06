@@ -12,28 +12,16 @@ class FamilySearchAccount < ActiveRecord::Base
 
 	belongs_to :user
 
-	before_save :encrypt_new_password
-
 	def fetch_session_id?
 		if session_update.nil? || session_id.nil? || (session_update < (Time.now - 3.hour))
-			id = FamilySearchApi::query_session_id(self)
+			id = FamilySearchApi::query_session_id(username, password)
 			unless id == false
 				update_attributes({ :session_id => id, :session_update => Time.now })
-			else
-				false
+				return true
 			end
+		else
+			return true
 		end
-		true
-	end
-	
-	protected
-	
-	def encrypt_new_password
-		return if password.blank?
-		self.password = encrypt(password)
-	end
-
-	def encrypt(string)
-		Digest::SHA1.hexdigest(string)
+		return false
 	end
 end

@@ -8,9 +8,9 @@ class FamilySearchApi
     config['web_key']
   end
   
-  def self.query_session_id(fsa)
+  def self.query_session_id(username, password)
     begin
-      xml = RestClient.get "https://"+fsa.username+":"+fsa.password+"@"+LOGIN_URL, :params => {:key => dev_key}
+      xml = RestClient.get "https://"+username+":"+password+"@"+LOGIN_URL, :params => {:key => dev_key}
       if xml.code == 200
         f = Nokogiri::XML(xml)
         return f.xpath('//*[@id]').attr('id').to_s

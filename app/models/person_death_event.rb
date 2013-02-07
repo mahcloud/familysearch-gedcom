@@ -1,0 +1,2 @@
+class PersonDeathEvent < PersonEvent
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206140004) do
+ActiveRecord::Schema.define(:version => 20130207210139) do
 
   create_table "ancestry_accounts", :force => true do |t|
     t.integer  "user_id"
@@ -34,6 +34,32 @@ ActiveRecord::Schema.define(:version => 20130206140004) do
   end
 
   add_index "family_search_accounts", ["user_id"], :name => "index_family_search_users_on_user_id", :unique => true
+
+  create_table "people", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.integer  "father_id"
+    t.integer  "mother_id"
+    t.string   "gender"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "person_events", :force => true do |t|
+    t.integer  "person_id"
+    t.string   "type"
+    t.datetime "date"
+    t.string   "place"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "person_family_search_identifier", :force => true do |t|
+    t.integer  "person_id"
+    t.string   "family_search_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false

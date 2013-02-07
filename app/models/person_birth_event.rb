@@ -1,0 +1,2 @@
+class PersonBirthEvent < PersonEvent
+end

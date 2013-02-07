@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 			else
 				if fs_account.fetch_session_id?
 					@output = "Successfully connected to familysearch.org."
-					@tree = fs_account.fetch_tree(0)
+					@tree = fs_account.fetch_tree()
 				else
 					@output = "Failed to connect to familysearch.org."
 				end

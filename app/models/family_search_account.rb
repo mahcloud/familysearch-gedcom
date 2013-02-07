@@ -25,9 +25,9 @@ class FamilySearchAccount < ActiveRecord::Base
 		return false
 	end
 
-	def fetch_tree(id)
+	def fetch_tree(pid = nil)
 		if fetch_session_id?
-			return FamilySearchApi::query_tree(session_id, id)
+			return FamilySearchApi::query_tree(session_id, pid)
 		end
 		nil
 	end

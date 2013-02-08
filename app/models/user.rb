@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 
 	has_one :family_search_account
 	has_one :ancestry_account
+	has_many :people
 
 	before_save :encrypt_new_password
 

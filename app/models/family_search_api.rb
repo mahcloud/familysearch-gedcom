@@ -43,7 +43,6 @@ class FamilySearchApi
 			end
 			xml = RestClient.get url, :params => {:sessionId => session_id}
 			if xml.code == 200
-				str = ""
 				doc = REXML::Document.new(xml)
 				elements = REXML::XPath.match(doc.root)
 				persons = []
@@ -53,43 +52,48 @@ class FamilySearchApi
 					pids << elem.attribute('id').to_s if elem.name == "person"
 				end
 				persons.each_with_index do |person, index|
-					parents = []
+					father_id = ""
+					mother_id = ""
 					name = ""
-					fspid = ""
 					doc = REXML::Document.new(person)
 					elements = REXML::XPath.match(doc.root)
 					doc.root.each_recursive do |elem|
-						parents << elem.to_s if elem.name == "parent"
+						if elem.name == "parent" && elem.attribute('gender').to_s == "Male"
+							father_id = elem.attribute('id').to_s
+						end
+						if elem.name == "parent" && elem.attribute('gender').to_s == "Female"
+							mother_id = elem.attribute('id').to_s
+						end
 						if elem.name == "fullText"
 							name = elem.text.to_s
 						end
 					end
-					str += pids[index]+"=>"+name
-					parents.each do |parent|
-						str += "Parent: "+parent+"----------------------------------------------------"
+					fsp = Person.new
+					fsp.name = name
+					if father_id != ""
+						father = Person.new
+						father.save
+						father_fs_id = PersonFamilySearchIdentifier.new
+						father_fs_id.family_search_id = father_id
+						father_fs_id.save
+						#father_fs_id = father.person_family_search_identifiers.build({:family_search_id => father_id})
+						fsp.father_id = father.id
 					end
-
+					if mother_id != ""
+						mother = Person.new
+						mother.save
+						mother_fs_id = PersonFamilySearchIdentifier.new
+						mother_fs_id.family_search_id = mother_id
+						mother_fs_id.save
+					#	mother_fs_id = mother.person_family_search_identifier.build(mother_id)
+						fsp.mother_id = mother.id
+					end
+					#fsp.user_id = current_user.id
+					fsp.save
 				end
-				return str
-				#f = Nokogiri::XML(xml)
-				#return xml
-				#return f.xpath("*[1]")
-				#return f.xpath("*[2]")
-				#var = ""
-				#f.xpath("//*[@id]").each do |person|
-				#	var += "New Person: "+person.attr('id').to_s+"------------------------------------------------------------------------------------------"
-				#	person.xpath("//*[@gender]").each do |parent|
-				#		var += "Parent: "+parent.attr('id').to_s
-				#	end
-				#end
-				#return var
 			end
-			#doc = REXML::Document.new(xml)
-			#doc.elements.each('persons/person') do |p|
-			#	return p.text
-			#end
 		rescue => e
-		abort(e.message)
+		return e.message
 		end
 		nil
 	end

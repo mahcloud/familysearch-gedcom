@@ -8,8 +8,7 @@ class FamilySearchAccountsController < ApplicationController
 	end
 	
 	def create
-		user = current_user
-		@fs_account = user.create_family_search_account(params[:family_search_account])
+		@fs_account = current_user.create_family_search_account(params[:family_search_account])
 		if @fs_account.save
 			redirect_to root_path, :notice => 'FamilySearch.org account credentials successfully saved.'
 		else
